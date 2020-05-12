@@ -1,13 +1,12 @@
-import { AlipayCircleOutlined, TaobaoCircleOutlined, WeiboCircleOutlined } from '@ant-design/icons';
-import { Alert, Checkbox } from 'antd';
+import { Alert } from 'antd';
 import React, { useState } from 'react';
-import { Dispatch, AnyAction, Link, connect } from 'umi';
+import { Dispatch, AnyAction, connect } from 'umi';
 import { StateType } from './model';
 import styles from './style.less';
 import { LoginParamsType } from './service';
 import LoginFrom from './components/Login';
 
-const { Tab, UserName, Password, Mobile, Captcha, Submit } = LoginFrom;
+const { Tab, UserName, Password, Submit } = LoginFrom;
 interface LoginProps {
   dispatch: Dispatch<AnyAction>;
   userAndlogin: StateType;
@@ -30,7 +29,6 @@ const LoginMessage: React.FC<{
 const Login: React.FC<LoginProps> = (props) => {
   const { userAndlogin = {}, submitting } = props;
   const { status, type: loginType } = userAndlogin;
-  const [autoLogin, setAutoLogin] = useState(true);
   const [type, setType] = useState<string>('account');
 
   const handleSubmit = (values: LoginParamsType) => {
