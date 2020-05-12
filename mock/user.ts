@@ -7,37 +7,37 @@ function getFakeCaptcha(req: Request, res: Response) {
 export default {
   // 支持值为 Object 和 Array
   'GET /api/currentUser': {
-    name: 'Serati Ma',
-    avatar: 'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+    name: 'epanel',
+    avatar: 'https://www.easyicon.net/api/resizeApi.php?id=1249927&size=24',
     userid: '00000001',
-    email: 'antdesign@alipay.com',
-    signature: '海纳百川，有容乃大',
-    title: '交互专家',
-    group: '蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED',
+    email: 'test@epanel.cn',
+    signature: '益派云调查',
+    title: '调查专家',
+    group: '益派－云调查部－UED',
     tags: [
       {
         key: '0',
-        label: '很有想法的',
+        label: '专业性',
       },
       {
         key: '1',
-        label: '专注设计',
+        label: '调查系统',
       },
       {
         key: '2',
-        label: '辣~',
+        label: '逻辑性强',
       },
       {
         key: '3',
-        label: '大长腿',
+        label: '全面',
       },
       {
         key: '4',
-        label: '川妹子',
+        label: '执着',
       },
       {
         key: '5',
-        label: '海纳百川',
+        label: '认真',
       },
     ],
     notifyCount: 12,
@@ -45,16 +45,16 @@ export default {
     country: 'China',
     geographic: {
       province: {
-        label: '浙江省',
-        key: '330000',
+        label: '北京市',
+        key: '100000',
       },
       city: {
-        label: '杭州市',
-        key: '330100',
+        label: '朝阳区',
+        key: '110105',
       },
     },
-    address: '西湖区工专路 77 号',
-    phone: '0752-268888888',
+    address: '北京市朝阳区',
+    phone: '010-57510088',
   },
   // GET POST 可省略
   'GET /api/users': [

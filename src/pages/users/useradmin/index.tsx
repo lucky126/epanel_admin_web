@@ -5,7 +5,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
-import { TableListItem } from './data.d';
+import { UserListItem } from './data.d';
 import { queryRule, updateRule, addRule, removeRule } from './service';
 
 /**
@@ -16,7 +16,7 @@ const handleAdd = async (fields: FormValueType) => {
   const hide = message.loading('正在添加');
   try {
     await addRule({
-      desc: fields.desc,
+      nickname: fields.nickname,
     });
     hide();
     message.success('添加成功');
@@ -37,8 +37,7 @@ const handleUpdate = async (fields: FormValueType) => {
   try {
     await updateRule({
       name: fields.name,
-      desc: fields.desc,
-      key: fields.key,
+      nickname: fields.nickname,
     });
     hide();
 
@@ -55,7 +54,7 @@ const handleUpdate = async (fields: FormValueType) => {
  *  删除节点
  * @param selectedRows
  */
-const handleRemove = async (selectedRows: TableListItem[]) => {
+const handleRemove = async (selectedRows: UserListItem[]) => {
   const hide = message.loading('正在删除');
   if (!selectedRows) return true;
   try {
@@ -77,14 +76,14 @@ const TableList: React.FC<{}> = () => {
   const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
   const [stepFormValues, setStepFormValues] = useState({});
   const actionRef = useRef<ActionType>();
-  const columns: ProColumns<TableListItem>[] = [
+  const columns: ProColumns<UserListItem>[] = [
     {
-      title: '规则名称',
+      title: '用户名',
       dataIndex: 'name',
     },
     {
-      title: '描述',
-      dataIndex: 'desc',
+      title: '昵称',
+      dataIndex: 'nickname',
     },
     {
       title: '服务调用次数',
@@ -131,8 +130,8 @@ const TableList: React.FC<{}> = () => {
 
   return (
     <PageHeaderWrapper>
-      <ProTable<TableListItem>
-        headerTitle="查询表格2"
+      <ProTable<UserListItem>
+        headerTitle="查询表格"
         actionRef={actionRef}
         rowKey="key"
         toolBarRender={(action, { selectedRows }) => [

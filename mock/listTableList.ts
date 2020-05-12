@@ -12,12 +12,8 @@ const genList = (current: number, pageSize: number) => {
     tableListDataSource.push({
       key: index,
       disabled: i % 6 === 0,
-      href: 'https://ant.design',
-      avatar: [
-        'https://gw.alipayobjects.com/zos/rmsportal/eeHMaZBwmTvLdIwMfBpg.png',
-        'https://gw.alipayobjects.com/zos/rmsportal/udxAbMEhpwthVVcjLXik.png',
-      ][i % 2],
-      name: `TradeCode ${index}`,
+      name: `user ${index}`,
+      nickname: `nickname ${i}`,
       owner: '曲丽丽',
       desc: '这是一段描述',
       callNo: Math.floor(Math.random() * 1000),

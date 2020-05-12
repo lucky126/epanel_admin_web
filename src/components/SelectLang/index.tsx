@@ -20,12 +20,10 @@ const SelectLang: React.FC<SelectLangProps> = (props) => {
   const locales = ['zh-CN', 'zh-TW', 'en-US'];
   const languageLabels = {
     'zh-CN': '简体中文',
-    'zh-TW': '繁体中文',
     'en-US': 'English',
   };
   const languageIcons = {
     'zh-CN': '🇨🇳',
-    'zh-TW': '🇭🇰',
     'en-US': '🇺🇸',
   };
   const langMenu = (
