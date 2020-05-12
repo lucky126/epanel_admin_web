@@ -104,7 +104,7 @@ const Login: React.FC<LoginProps> = (props) => {
             ]}
           />
         </Tab> */}
-        <div>
+        {/* <div>
           <Checkbox checked={autoLogin} onChange={(e) => setAutoLogin(e.target.checked)}>
             自动登录
           </Checkbox>
@@ -115,7 +115,7 @@ const Login: React.FC<LoginProps> = (props) => {
           >
             忘记密码
           </a>
-        </div>
+        </div> */}
         <Submit loading={submitting}>登录</Submit>
         {/* <div className={styles.other}>
           其他登录方式
