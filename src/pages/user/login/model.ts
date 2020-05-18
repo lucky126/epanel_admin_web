@@ -6,6 +6,7 @@ import { getPageQuery, setAuthority } from './utils/utils';
 export interface StateType {
   status?: 'ok' | 'error';
   type?: string;
+  message?: string;
   currentAuthority?: 'user' | 'guest' | 'admin';
 }
 
@@ -70,6 +71,7 @@ const Model: ModelType = {
         ...state,
         status: payload.status == 200 ? 'ok' : 'error',
         type: payload.type,
+        message: payload.message.text,
       };
     },
   },

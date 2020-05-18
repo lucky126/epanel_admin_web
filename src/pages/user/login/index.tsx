@@ -13,8 +13,8 @@ interface LoginProps {
   submitting?: boolean;
 }
 
-const LoginMessage: React.FC<{
-  content: string;
+let LoginMessage: React.FC<{
+  content?: string;
 }> = ({ content }) => (
   <Alert
     style={{
@@ -28,7 +28,7 @@ const LoginMessage: React.FC<{
 
 const Login: React.FC<LoginProps> = (props) => {
   const { userAndlogin = {}, submitting } = props;
-  const { status, type: loginType } = userAndlogin;
+  const { status, type: loginType, message } = userAndlogin;
   const [type, setType] = useState<string>('account');
 
   const handleSubmit = (values: LoginParamsType) => {
@@ -41,31 +41,32 @@ const Login: React.FC<LoginProps> = (props) => {
       },
     });
   };
+  console.log(message)
   return (
     <div className={styles.main}>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
         <Tab key="account" tab="账户密码登录">
-          {status === 'error' && loginType === 'account' && !submitting && (
-            <LoginMessage content="账户或密码错误（admin/welcome）" />
+          {status === 'error' && !submitting && (
+            <LoginMessage content={message} />
           )}
 
           <UserName
             name="userName"
-            placeholder="用户名: admin or user"
+            placeholder="请输入邮箱或者手机号"
             rules={[
               {
                 required: true,
-                message: '请输入用户名!',
+                message: '请输入邮箱或者手机号',
               },
             ]}
           />
           <Password
             name="password"
-            placeholder="密码: welcome"
+            placeholder="请输入密码"
             rules={[
               {
                 required: true,
-                message: '请输入密码！',
+                message: '请输入密码',
               },
             ]}
           />
