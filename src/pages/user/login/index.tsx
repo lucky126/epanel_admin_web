@@ -46,7 +46,7 @@ const Login: React.FC<LoginProps> = (props) => {
     <div className={styles.main}>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>
         <Tab key="account" tab="账户密码登录">
-          {status === 'error' && !submitting && (
+          {status === 'error' && loginType === 'account' && !submitting && (
             <LoginMessage content={message} />
           )}
 

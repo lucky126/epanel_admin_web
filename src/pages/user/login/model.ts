@@ -70,7 +70,7 @@ const Model: ModelType = {
       return {
         ...state,
         status: payload.status == 200 ? 'ok' : 'error',
-        type: payload.type,
+        type: payload.message.data.type,
         message: payload.message.text,
       };
     },

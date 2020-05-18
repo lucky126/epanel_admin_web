@@ -82,7 +82,7 @@ export default {
     if (password === 'welcome' && userName === 'admin') {
       res.send({
         status: 'ok',
-        type,
+        message: {data : {type}},
         currentAuthority: 'admin',
       });
       return;
@@ -90,7 +90,7 @@ export default {
     if (password === 'welcome' && userName === 'user') {
       res.send({
         status: 'ok',
-        type,
+        message: {data : {type}},
         currentAuthority: 'user',
       });
       return;
@@ -98,7 +98,7 @@ export default {
     if (type === 'mobile') {
       res.send({
         status: 'ok',
-        type,
+        message: {data : {type}},
         currentAuthority: 'admin',
       });
       return;
@@ -106,7 +106,7 @@ export default {
 
     res.send({
       status: 'error',
-      type,
+      message: {data : {type}},
       currentAuthority: 'guest',
     });
   },
