@@ -36,9 +36,9 @@ const Model: ModelType = {
         payload: response,
       });
       // Login successfully
-      if (response.status === 'ok') {
+      if (response.status === 200) {
         message.success('登录成功！');
-        localStorage.setItem('token','yes');
+        localStorage.setItem('token',response.token);
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params as { redirect: string };
@@ -68,7 +68,7 @@ const Model: ModelType = {
       setAuthority(payload.currentAuthority);
       return {
         ...state,
-        status: payload.status,
+        status: payload.status == 200 ? 'ok' : 'error',
         type: payload.type,
       };
     },
