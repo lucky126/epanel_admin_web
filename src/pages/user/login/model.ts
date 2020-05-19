@@ -1,6 +1,6 @@
 import { Effect, history, Reducer } from 'umi';
 import { message } from 'antd';
-import { fakeAccountLogin, getFakeCaptcha } from './service';
+import { fakeAccountLogin, getFakeCaptcha } from '../../../services/login';
 import { getPageQuery, setAuthority } from './utils/utils';
 
 export interface StateType {
