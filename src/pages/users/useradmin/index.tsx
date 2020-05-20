@@ -6,7 +6,7 @@ import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
 import { UserListItem } from './data.d';
-import { queryRule, updateRule, addRule, removeRule } from './service';
+import { queryList, updateRule, addRule, removeRule } from '../../../services/user';
 
 /**
  * 添加节点
@@ -36,7 +36,7 @@ const handleUpdate = async (fields: FormValueType) => {
   const hide = message.loading('正在配置');
   try {
     await updateRule({
-      name: fields.name,
+      username: fields.username,
       nickname: fields.nickname,
     });
     hide();
@@ -79,31 +79,34 @@ const TableList: React.FC<{}> = () => {
   const columns: ProColumns<UserListItem>[] = [
     {
       title: '用户名',
-      dataIndex: 'name',
+      dataIndex: 'username',
+      sorter: true,
     },
     {
       title: '昵称',
       dataIndex: 'nickname',
-    },
-    {
-      title: '服务调用次数',
-      dataIndex: 'callNo',
       sorter: true,
-      renderText: (val: string) => `${val} 万`,
     },
     {
-      title: '状态',
-      dataIndex: 'status',
+      title: '是否可用',
+      dataIndex: 'isEnabled',
+      sorter: true,
       valueEnum: {
-        0: { text: '关闭', status: 'Default' },
-        1: { text: '运行中', status: 'Processing' },
-        2: { text: '已上线', status: 'Success' },
-        3: { text: '异常', status: 'Error' },
+        0: { text: '关闭', status: 'Error' },
+        1: { text: '可用', status: 'Success' },
       },
     },
     {
-      title: '上次调度时间',
-      dataIndex: 'updatedAt',
+      title: '是否管理员',
+      dataIndex: 'isAdmin',
+      valueEnum: {
+        0: { text: '否', status: 'Error' },
+        1: { text: '是', status: 'Success' },
+      },
+    },
+    {
+      title: '注册时间',
+      dataIndex: 'createTime',
       sorter: true,
       valueType: 'dateTime',
     },
@@ -122,7 +125,7 @@ const TableList: React.FC<{}> = () => {
             配置
           </a>
           <Divider type="vertical" />
-          <a href="">订阅警报</a>
+          <a href="">操作</a>
         </>
       ),
     },
@@ -161,15 +164,12 @@ const TableList: React.FC<{}> = () => {
             </Dropdown>
           ),
         ]}
-        tableAlertRender={({ selectedRowKeys, selectedRows }) => (
+        tableAlertRender={({ selectedRowKeys }) => (
           <div>
             已选择 <a style={{ fontWeight: 600 }}>{selectedRowKeys.length}</a> 项&nbsp;&nbsp;
-            <span>
-              服务调用次数总计 {selectedRows.reduce((pre, item) => pre + item.callNo, 0)} 万
-            </span>
           </div>
         )}
-        request={(params) => queryRule(params)}
+        request={(params) => queryList(params)}
         columns={columns}
         rowSelection={{}}
       />
