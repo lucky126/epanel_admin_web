@@ -52,16 +52,18 @@ const errorHandler = (error: { response: Response }): Response => {
 const request = extend({
   errorHandler, // 默认错误处理
   credentials: 'include', // 默认请求是否带上cookie
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `${localStorage.getItem('token')}`
-  }
 });
 
 request.use(async (ctx, next) => {
-  // const { req } = ctx;
+  const { req } = ctx;
   // const { url, options } = req;
   // console.log(req);
+  // console.log(localStorage.getItem('token'));
+
+  req.options.headers = {
+    'Content-Type': 'application/json',
+    'Authorization': localStorage.getItem('token')
+  }
 
   await next();
   
