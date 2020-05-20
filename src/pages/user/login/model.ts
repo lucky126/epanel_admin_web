@@ -69,7 +69,7 @@ const Model: ModelType = {
       setAuthority(payload.currentAuthority);
       return {
         ...state,
-        status: payload.status == 200 ? 'ok' : 'error',
+        status: payload.status === 200 ? 'ok' : 'error',
         type: payload.message.data.type,
         message: payload.message.text,
       };

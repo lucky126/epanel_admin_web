@@ -45,6 +45,7 @@ const errorHandler = (error: { response: Response }): Response => {
   return response;
 };
 
+
 /**
  * 配置request请求时的默认参数
  */
@@ -53,8 +54,24 @@ const request = extend({
   credentials: 'include', // 默认请求是否带上cookie
   headers: {
     'Content-Type': 'application/json',
-    'Authorization': `ePanel ${  localStorage.getItem('token')}`
+    'Authorization': `${localStorage.getItem('token')}`
   }
 });
+
+request.use(async (ctx, next) => {
+  // const { req } = ctx;
+  // const { url, options } = req;
+  // console.log(req);
+
+  await next();
+  
+  const { res } = ctx;
+  // console.log(res);
+  if(res.status === 401){
+    console.log('unAuthority');
+    localStorage.removeItem('token');
+  }
+
+})
 
 export default request;
