@@ -84,7 +84,7 @@ const TableList: React.FC<{}> = () => {
     },
     {
       title: '昵称',
-      dataIndex: 'nickname',
+      dataIndex: 'nickName',
       sorter: true,
     },
     {

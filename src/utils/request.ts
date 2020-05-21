@@ -72,6 +72,12 @@ request.use(async (ctx, next) => {
   if(res.status === 401){
     console.log('unAuthority');
     localStorage.removeItem('token');
+  }else{
+    let token = res.token
+    
+    if(token){
+      localStorage.setItem('token',token)
+    }
   }
 
 })
