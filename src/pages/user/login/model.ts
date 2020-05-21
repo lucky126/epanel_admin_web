@@ -39,7 +39,7 @@ const Model: ModelType = {
       // Login successfully
       if (response.status === 200) {
         message.success('登录成功！',3);
-        localStorage.setItem('token',response.token);
+        localStorage.setItem('token',response.data.token);
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
         let { redirect } = params as { redirect: string };
@@ -70,8 +70,8 @@ const Model: ModelType = {
       return {
         ...state,
         status: payload.status === 200 ? 'ok' : 'error',
-        type: payload.message.data.type,
-        message: payload.message.text,
+        type: payload.data.type,
+        message: payload.message,
       };
     },
   },
