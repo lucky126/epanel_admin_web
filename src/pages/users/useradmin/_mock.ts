@@ -9,15 +9,24 @@ let tableListDataSource: UserListItem[] = [];
 for (let i = 0; i < 30; i += 1) {
   tableListDataSource.push({
     id: i,
-    isEnabled: i % 2,
-    isAdmin: i % 2,
+    isEnabled: false,
+    isAdmin: false,
     username: `user ${i}`,
     nickName: `nickname ${i}`,
     mobileNumber: '曲丽丽',
     email: '这是一段描述2',
-    status: Math.floor(Math.random() * 10) % 4,
-    updateTime: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    createTime: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    emailStatus: i % 2,
+    mobileNumberStatus: i % 2,
+    activeStatus: Math.floor(Math.random() * 10) % 4,
+    isAccountNotExpired: false,
+    isAccountNotLocked: false,
+    isCompanyAccount: false,
+    isInnerAccount: false,
+    isPrimaryAccount: false,
+    registerType: i % 2,
+    version: 0,
+    updateTime: "2018-02-12 16:15:35",
+    createTime: "2018-02-12 16:15:35",
   });
 }
 

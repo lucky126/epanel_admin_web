@@ -5,7 +5,7 @@ export async function queryList(params?: UserListParams): Promise<any> {
   let result = request('/api/rule', {
     params,
   });
-  console.log(result)
+  // console.log(result)
   return result;
 }
 

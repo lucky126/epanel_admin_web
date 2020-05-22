@@ -7,9 +7,8 @@ export async function queryList(params?: UserListParams) : Promise<any> {
     data: {
       ...params,
     },
-    getResponse: true
   })
-  console.log(result)
+  // console.log(result)
   return result;
 }
 

@@ -6,7 +6,7 @@ import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
 import { UserListItem } from './data.d';
-import { queryList, updateRule, addRule, removeRule } from './service';//'../../../services/user';
+import { queryList, updateRule, addRule, removeRule } from '../../../services/user';
 
 /**
  * 添加节点
@@ -92,16 +92,16 @@ const TableList: React.FC<{}> = () => {
       dataIndex: 'isEnabled',
       sorter: true,
       valueEnum: {
-        0: { text: '关闭', status: 'Error' },
-        1: { text: '可用', status: 'Success' },
+        false: { text: '关闭', status: 'Error' },
+        true: { text: '可用', status: 'Success' },
       },
     },
     {
       title: '是否管理员',
       dataIndex: 'isAdmin',
       valueEnum: {
-        0: { text: '否', status: 'Error' },
-        1: { text: '是', status: 'Success' },
+        false: { text: '否', status: 'Error' },
+        true: { text: '是', status: 'Success' },
       },
     },
     {
@@ -134,7 +134,7 @@ const TableList: React.FC<{}> = () => {
   return (
     <PageHeaderWrapper>
       <ProTable<UserListItem>
-        headerTitle="查询表格"
+        headerTitle="用户列表"
         actionRef={actionRef}
         rowKey="id"
         toolBarRender={(action, { selectedRows }) => [
@@ -172,6 +172,9 @@ const TableList: React.FC<{}> = () => {
         request={(params) => queryList(params)}
         columns={columns}
         rowSelection={{}}
+        pagination={{
+          pageSize: 10
+        }}
       />
       <CreateForm
         onSubmit={async (value) => {
