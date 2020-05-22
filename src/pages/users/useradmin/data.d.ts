@@ -1,15 +1,26 @@
 export interface UserListItem {
   id: number;
-  isEnabled: number;
-  username: string;
-  nickName: string;
-  isAdmin: boolean;
-  mobileNumber: string;
-  email: string;
-  status: number;
+  username?: string;
+  nickName?: string;
+  mobileNumber?: string;
+  email?: string;
+  emailStatus?: number;
+  mobileNumberStatus?: number;
+  version?: number;
+  activeStatus?: number;
+  registerType?: number;
+  version?: number;
+  id?: number;
+  isAdmin?: boolean;
+  isAccountNotExpired?: boolean;
+  isAccountNotLocked?: boolean;
+  isCompanyAccount?: boolean;
+  isEnabled?: boolean;
+  isInnerAccount?: boolean;  
+  isPrimaryAccount?: boolean;
   updateTime: Date;
   createTime: Date;
-}
+}     
 
 export interface UserListPagination {
   total: number;

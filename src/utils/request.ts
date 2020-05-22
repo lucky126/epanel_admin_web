@@ -68,18 +68,20 @@ request.use(async (ctx, next) => {
   await next();
   
   const { res } = ctx;
-  // console.log(res);
+
   if(res.status === 401){
     console.log('unAuthority');
     localStorage.removeItem('token');
-  }else{
-    let token = res.token
-    
-    if(token){
-      localStorage.setItem('token',token)
-    }
   }
-
 })
+
+// response拦截器, 处理response
+request.interceptors.response.use((response, options) => {
+  let token = response.headers.get("token");
+  if(token){
+    localStorage.setItem('token',token)
+  }
+  return response;
+});
 
 export default request;

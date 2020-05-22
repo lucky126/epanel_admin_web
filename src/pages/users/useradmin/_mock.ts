@@ -6,19 +6,18 @@ import { UserListItem, UserListParams } from './data.d';
 // mock tableListDataSource
 let tableListDataSource: UserListItem[] = [];
 
-for (let i = 0; i < 10; i += 1) {
+for (let i = 0; i < 30; i += 1) {
   tableListDataSource.push({
-    key: i,
-    disabled: i % 6 === 0,
-    name: `user ${i}`,
-    nickname: `nickname ${i}`,
-    owner: '曲丽丽',
-    desc: '这是一段描述',
-    callNo: Math.floor(Math.random() * 1000),
+    id: i,
+    isEnabled: i % 2,
+    isAdmin: i % 2,
+    username: `user ${i}`,
+    nickName: `nickname ${i}`,
+    mobileNumber: '曲丽丽',
+    email: '这是一段描述2',
     status: Math.floor(Math.random() * 10) % 4,
-    updatedAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    createdAt: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
-    progress: Math.ceil(Math.random() * 100),
+    updateTime: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
+    createTime: new Date(`2017-07-${Math.floor(i / 2) + 1}`),
   });
 }
 
@@ -99,7 +98,7 @@ function postRule(req: Request, res: Response, u: string, b: Request) {
       tableListDataSource.unshift({
         key: i,
         name: `user ${i}`,
-        nickname: `nickname ${i}`,
+        nickName: `nickname ${i}`,
         owner: '曲丽丽',
         desc,
         callNo: Math.floor(Math.random() * 1000),

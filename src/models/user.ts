@@ -5,7 +5,7 @@ import { queryCurrent } from '@/services/user';
 export interface CurrentUser {
   avatar?: string;
   username?: string;
-  nickname?: string;
+  nickName?: string;
   mobileNumber?: string;
   email?: string;
   version?: number;

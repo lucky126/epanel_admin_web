@@ -6,7 +6,7 @@ import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
 import { UserListItem } from './data.d';
-import { queryList, updateRule, addRule, removeRule } from '../../../services/user';
+import { queryList, updateRule, addRule, removeRule } from './service';//'../../../services/user';
 
 /**
  * 添加节点
@@ -136,7 +136,7 @@ const TableList: React.FC<{}> = () => {
       <ProTable<UserListItem>
         headerTitle="查询表格"
         actionRef={actionRef}
-        rowKey="key"
+        rowKey="id"
         toolBarRender={(action, { selectedRows }) => [
           <Button icon={<PlusOutlined />} type="primary" onClick={() => handleModalVisible(true)}>
             新建
