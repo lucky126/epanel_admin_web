@@ -80,17 +80,14 @@ const TableList: React.FC<{}> = () => {
     {
       title: '用户名',
       dataIndex: 'username',
-      sorter: true,
     },
     {
       title: '昵称',
       dataIndex: 'nickName',
-      sorter: true,
     },
     {
       title: '状态',
       dataIndex: 'isEnabled',
-      sorter: true,
       valueEnum: {
         false: { text: '关闭', status: 'Error' },
         true: { text: '正常', status: 'Success' },
@@ -99,7 +96,6 @@ const TableList: React.FC<{}> = () => {
     {
       title: '激活',
       dataIndex: 'activeStatus',
-      sorter: true,
       valueEnum: {
         0: { text: '未激活', status: 'Error' },
         1: { text: '已激活', status: 'Success' },
@@ -140,7 +136,6 @@ const TableList: React.FC<{}> = () => {
     {
       title: '注册时间',
       dataIndex: 'createTime',
-      sorter: true,
       valueType: 'dateTime',
     },
     {
@@ -155,10 +150,10 @@ const TableList: React.FC<{}> = () => {
               setStepFormValues(record);
             }}
           >
-            配置
+            修改
           </a>
           <Divider type="vertical" />
-          <a href="">操作</a>
+          <a href="">停用</a>
         </>
       ),
     },
@@ -186,8 +181,7 @@ const TableList: React.FC<{}> = () => {
                   }}
                   selectedKeys={[]}
                 >
-                  <Menu.Item key="remove">批量删除</Menu.Item>
-                  <Menu.Item key="approval">批量审批</Menu.Item>
+                  <Menu.Item key="remove">批量停用</Menu.Item>
                 </Menu>
               }
             >

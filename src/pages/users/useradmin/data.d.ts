@@ -35,9 +35,6 @@ export interface UserListData {
 
 export interface UserListParams {
   sorter?: string;
-  status?: string;
-  name?: string;
-  desc?: string;
   key?: number;
   pageSize?: number;
   currentPage?: number;
