@@ -88,17 +88,50 @@ const TableList: React.FC<{}> = () => {
       sorter: true,
     },
     {
-      title: '是否可用',
+      title: '状态',
       dataIndex: 'isEnabled',
       sorter: true,
       valueEnum: {
         false: { text: '关闭', status: 'Error' },
-        true: { text: '可用', status: 'Success' },
+        true: { text: '正常', status: 'Success' },
       },
     },
     {
-      title: '是否管理员',
+      title: '激活',
+      dataIndex: 'activeStatus',
+      sorter: true,
+      valueEnum: {
+        0: { text: '未激活', status: 'Error' },
+        1: { text: '已激活', status: 'Success' },
+      },
+    },
+    {
+      title: '管理员',
       dataIndex: 'isAdmin',
+      valueEnum: {
+        false: { text: '否', status: 'Error' },
+        true: { text: '是', status: 'Success' },
+      },
+    },
+    {
+      title: '内部账号',
+      dataIndex: 'isInnerAccount',
+      valueEnum: {
+        false: { text: '否', status: 'Error' },
+        true: { text: '是', status: 'Success' },
+      },
+    },
+    {
+      title: '主账号',
+      dataIndex: 'isPrimaryAccount',
+      valueEnum: {
+        false: { text: '否', status: 'Error' },
+        true: { text: '是', status: 'Success' },
+      },
+    },
+    {
+      title: '企业账号',
+      dataIndex: 'isCompanyAccount',
       valueEnum: {
         false: { text: '否', status: 'Error' },
         true: { text: '是', status: 'Success' },
