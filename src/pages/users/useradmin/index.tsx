@@ -7,6 +7,7 @@ import CreateForm from './components/CreateForm';
 import UpdateForm, { FormValueType } from './components/UpdateForm';
 import { UserListItem } from './data.d';
 import { queryList, updateRule, addRule, removeRule } from '../../../services/user';
+import { TableListData } from '@/pages/ListTableList/data';
 
 /**
  * 添加节点
@@ -70,6 +71,25 @@ const handleRemove = async (selectedRows: UserListItem[]) => {
     return false;
   }
 };
+
+const MoreBtn: React.FC<{
+  record: TableListData;
+}> = ({ record }) => (
+  <Dropdown
+    overlay={
+      <Menu onClick={({key})=> {console.log(key);console.log(record);}}>
+        <Menu.Item key="resetPw">重置密码</Menu.Item>
+        <Menu.Item key="setAdmin">设置管理员</Menu.Item>
+        <Menu.Item key="setInner">设置内部账户</Menu.Item>
+        <Menu.Item key="delete">删除</Menu.Item>
+      </Menu>
+    }
+  >
+    <a>
+      更多 <DownOutlined />
+    </a>
+  </Dropdown>
+);
 
 const TableList: React.FC<{}> = () => {
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
@@ -153,7 +173,7 @@ const TableList: React.FC<{}> = () => {
             修改
           </a>
           <Divider type="vertical" />
-          <a href="">停用</a>
+          <MoreBtn key="more" record={record} />
         </>
       ),
     },
