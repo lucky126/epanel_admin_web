@@ -38,6 +38,7 @@ const Login: React.FC<LoginProps> = (props) => {
       payload: {
         ...values,
         type,
+        isAdmin:true,
       },
     });
   };

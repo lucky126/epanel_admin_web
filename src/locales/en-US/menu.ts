@@ -8,7 +8,7 @@ export default {
   'menu.register': 'Register',
   'menu.register.result': 'Register Result',
   'menu.dashboard': 'Dashboard',
-  'menu.dashboard.analysis': 'Analysis',
+  'menu.dashboard.analysis': 'Web Info',
   'menu.dashboard.monitor': 'Monitor',
   'menu.dashboard.workplace': 'Workplace',
   'menu.exception.403': '403',
