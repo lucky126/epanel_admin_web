@@ -1,11 +1,11 @@
 import { DownOutlined, PlusOutlined } from '@ant-design/icons';
-import { Button, Divider, Dropdown, Menu, message } from 'antd';
+import { Button, Divider, Dropdown, Menu, message, Modal } from 'antd';
 import React, { useState, useRef } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
-import UpdateForm, { FormValueType } from './components/UpdateForm';
-import { UserListItem } from './data.d';
+import OperationModal from './components/OperationModal';
+import { UserListItem, } from './data.d';
 import { queryList, updateRule, addRule, removeRule } from '../../../services/user';
 import { TableListData } from '@/pages/ListTableList/data';
 
@@ -25,28 +25,6 @@ const handleAdd = async (fields: FormValueType) => {
   } catch (error) {
     hide();
     message.error('添加失败请重试！');
-    return false;
-  }
-};
-
-/**
- * 更新节点
- * @param fields
- */
-const handleUpdate = async (fields: FormValueType) => {
-  const hide = message.loading('正在配置');
-  try {
-    await updateRule({
-      username: fields.username,
-      nickname: fields.nickname,
-    });
-    hide();
-
-    message.success('配置成功');
-    return true;
-  } catch (error) {
-    hide();
-    message.error('配置失败请重试！');
     return false;
   }
 };
@@ -72,30 +50,80 @@ const handleRemove = async (selectedRows: UserListItem[]) => {
   }
 };
 
-const MoreBtn: React.FC<{
-  record: TableListData;
-}> = ({ record }) => (
-  <Dropdown
-    overlay={
-      <Menu onClick={({key})=> {console.log(key);console.log(record);}}>
-        <Menu.Item key="resetPw">重置密码</Menu.Item>
-        <Menu.Item key="setAdmin">设置管理员</Menu.Item>
-        <Menu.Item key="setInner">设置内部账户</Menu.Item>
-        <Menu.Item key="delete">删除</Menu.Item>
-      </Menu>
-    }
-  >
-    <a>
-      更多 <DownOutlined />
-    </a>
-  </Dropdown>
-);
-
 const TableList: React.FC<{}> = () => {
+  const [done, setDone] = useState<boolean>(false);
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  const [updateModalVisible, handleUpdateModalVisible] = useState<boolean>(false);
-  const [stepFormValues, setStepFormValues] = useState({});
+  const [resetPwVisible, setUpdateResetPwVisible] = useState<boolean>(false);
+  const [current, setCurrent] = useState<Partial<TableListData> | undefined>(undefined);
   const actionRef = useRef<ActionType>();
+
+  /**
+   * 显示重置密码面板
+   * @param item 数据
+   */
+  const showResetPwModal = (item: TableListData) => {
+    setUpdateResetPwVisible(true);
+    setCurrent(item);
+    console.log(item)
+  };
+
+  /**
+   * 用户数据操作
+   * @param key 操作类型
+   * @param currentItem 操作记录
+   */
+  const recordAction = (key: string, currentItem: TableListData) => {
+    if (key === 'resetPw') showResetPwModal(currentItem);
+    else if (key === 'delete') {
+      Modal.confirm({
+        title: '删除用户',
+        content: '确定删除该用户吗？',
+        okText: '确认',
+        cancelText: '取消',
+        onOk: () => {},
+      });
+    }
+  };
+
+  const MoreBtn: React.FC<{
+    record: TableListData;
+  }> = ({ record }) => (
+    <Dropdown
+      overlay={
+        <Menu onClick={({key})=> recordAction(key, record)}>
+          <Menu.Item key="resetPw">重置密码</Menu.Item>
+          <Menu.Item key="setAdmin">设置管理员</Menu.Item>
+          <Menu.Item key="setInner">设置内部账户</Menu.Item>
+          <Menu.Item key="delete">删除</Menu.Item>
+        </Menu>
+      }
+    >
+      <a>
+        更多 <DownOutlined />
+      </a>
+    </Dropdown>
+  );
+
+  
+  const handleDone = () => {
+    setDone(false);
+    setUpdateResetPwVisible(false);
+  };
+
+  const handleCancel = () => {
+    setUpdateResetPwVisible(false);
+  };
+
+  const handleSubmit = (values: TableListData) => {
+    const id = current ? current.id : '';
+
+    setDone(true);
+    // dispatch({
+    //   type: 'listAndbasicList/submit',
+    //   payload: { id, ...values },
+    // });
+  };
+
   const columns: ProColumns<UserListItem>[] = [
     {
       title: '用户名',
@@ -236,26 +264,14 @@ const TableList: React.FC<{}> = () => {
         onCancel={() => handleModalVisible(false)}
         modalVisible={createModalVisible}
       />
-      {stepFormValues && Object.keys(stepFormValues).length ? (
-        <UpdateForm
-          onSubmit={async (value) => {
-            const success = await handleUpdate(value);
-            if (success) {
-              handleModalVisible(false);
-              setStepFormValues({});
-              if (actionRef.current) {
-                actionRef.current.reload();
-              }
-            }
-          }}
-          onCancel={() => {
-            handleUpdateModalVisible(false);
-            setStepFormValues({});
-          }}
-          updateModalVisible={updateModalVisible}
-          values={stepFormValues}
-        />
-      ) : null}
+     <OperationModal
+        done={done}
+        current={current}
+        visible={resetPwVisible}
+        onDone={handleDone}
+        onCancel={handleCancel}
+        onSubmit={handleSubmit}
+      />
     </PageHeaderWrapper>
   );
 };
