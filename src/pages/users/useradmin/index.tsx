@@ -116,7 +116,7 @@ const TableList: React.FC<{}> = () => {
 
   const handleSubmit = (values: TableListData) => {
     const id = current ? current.id : '';
-
+console.log(values)
     setDone(true);
     // dispatch({
     //   type: 'listAndbasicList/submit',
@@ -194,8 +194,7 @@ const TableList: React.FC<{}> = () => {
         <>
           <a
             onClick={() => {
-              handleUpdateModalVisible(true);
-              setStepFormValues(record);
+              
             }}
           >
             修改

@@ -69,18 +69,23 @@ const OperationModal: FC<OperationModalProps> = (props) => {
     return (
       <Form {...formLayout} form={form} onFinish={handleFinish}>
         <Form.Item
+         name="id"
+        >
+          <Input type="hidden" />
+        </Form.Item>
+        <Form.Item
           name="password"
           label="新密码"
           rules={[{ required: true, message: '请输入新的密码' }]}
         >
-          <Input placeholder="请输入新的密码" />
+          <Input placeholder="请输入新的密码" type="password" />
         </Form.Item>
         <Form.Item
           name="repassword"
           label="确认密码"
           rules={[{ required: true, message: '请输入确认密码' }]}
         >
-          <Input placeholder="请输入确认密码" />
+          <Input placeholder="请输入确认密码" type="password" />
         </Form.Item>
       
       </Form>
@@ -89,7 +94,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
 
   return (
     <Modal
-      title={done ? null : `任务${current ? '编辑' : '添加'}`}
+      title={done ? null : `用户${current ? '编辑' : '添加'}`}
       className={styles.standardListForm}
       width={640}
       bodyStyle={done ? { padding: '72px 0' } : { padding: '28px 0 0' }}
