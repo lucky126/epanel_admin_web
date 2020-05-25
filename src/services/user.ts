@@ -30,6 +30,15 @@ export async function setAdmin(params: UserListParams) {
   });
 }
 
+export async function setInner(params: UserListParams) {
+  return request('/v3/user/setInnerAccount', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+
 export async function addRule(params: UserListParams) {
   return request('/api/rule', {
     method: 'POST',

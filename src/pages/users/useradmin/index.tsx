@@ -6,7 +6,7 @@ import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import OperationModal from './components/OperationModal';
 import { UserListItem, TableListData } from './data.d';
-import { queryList, setAdmin, resetPw } from '../../../services/user';
+import { queryList, setAdmin, resetPw, setInner } from '../../../services/user';
 
 /**
  * 添加节点
@@ -75,6 +75,7 @@ const TableList: React.FC<{}> = () => {
   const recordAction = (key: string, currentItem: TableListData) => {
     if (key === 'resetPw') showUpdateModal(key, currentItem);
     else if (key === 'setAdmin') showUpdateModal(key, currentItem);
+    else if (key === 'setInner') showUpdateModal(key, currentItem);
     else if (key === 'delete') {
       Modal.confirm({
         title: '删除用户',
@@ -141,7 +142,13 @@ const TableList: React.FC<{}> = () => {
     if (actionType === 'setAdmin') {
       setAdmin({
         id,
-        isAdmin: values.isAdmin,
+        flag: values.isAdmin,
+      });
+    }
+    if (actionType === 'setInner') {
+      setInner({
+        id,
+        flag: values.isInnerAccount,
       });
     }
 

@@ -22,7 +22,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
   const [form] = Form.useForm();
   const { done, visible, type, values, onDone, onCancel, onSubmit } = props;
   const userName = values.username;
-  
+
   useEffect(() => {
     if (form && !visible) {
       form.resetFields();
@@ -52,7 +52,23 @@ const OperationModal: FC<OperationModalProps> = (props) => {
 
   const getModalContent = () => {
     if (done) {
-      const subTitle = type === 'resetPw' ? '密码重置成功。' : (type === 'setAdmin' ? '管理员设置切换成功。' : '')
+
+      let subTitle = '';
+
+      switch (type) {
+        case 'resetPw':
+          subTitle = '密码重置成功。';
+          break;
+        case 'setAdmin':
+          subTitle = '管理员设置切换成功。';
+          break;
+        case 'setInner':
+          subTitle = '内部用户设置切换成功。';
+          break;
+        default:
+          break;
+      }
+
       return (
         <Result
           status="success"
@@ -101,12 +117,35 @@ const OperationModal: FC<OperationModalProps> = (props) => {
             <Switch checkedChildren="是" unCheckedChildren="否" />
           </Form.Item>
         )}
+        {type === 'setInner' && (
+          <Form.Item
+            name="isInnerAccount"
+            label="是否内部用户"
+            valuePropName="defaultChecked"
+          >
+            <Switch checkedChildren="是" unCheckedChildren="否" />
+          </Form.Item>
+        )}
 
       </Form>
     );
   };
 
-  const modelTitle = type === 'resetPw' ? '重置密码' : (type === 'setAdmin' ? '设置管理员' : '');
+  let modelTitle = '';
+
+  switch (type) {
+    case 'resetPw':
+      modelTitle = '重置密码';
+      break;
+    case 'setAdmin':
+      modelTitle = '设置管理员';
+      break;
+    case 'setInner':
+      modelTitle = '设置内部用户(包含离线下载权限)';
+      break;
+    default:
+      break;
+  }
 
   return (
     <Modal
