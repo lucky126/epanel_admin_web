@@ -12,12 +12,20 @@ export async function queryList(params?: UserListParams) : Promise<any> {
   return result;
 }
 
-export async function removeRule(params: { key: number[] }) {
-  return request('/api/rule', {
+export async function resetPw(params: UserListParams) {
+  return request('/v3/user/resetPassword', {
     method: 'POST',
     data: {
       ...params,
-      method: 'delete',
+    },
+  });
+}
+
+export async function setAdmin(params: UserListParams) {
+  return request('/v3/user/setAdmin', {
+    method: 'POST',
+    data: {
+      ...params,
     },
   });
 }

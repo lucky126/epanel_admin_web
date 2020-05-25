@@ -5,9 +5,8 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import OperationModal from './components/OperationModal';
-import { UserListItem, } from './data.d';
-import { queryList, updateRule, addRule, removeRule } from '../../../services/user';
-import { TableListData } from '@/pages/ListTableList/data';
+import { UserListItem, TableListData } from './data.d';
+import { queryList, setAdmin, resetPw } from '../../../services/user';
 
 /**
  * 添加节点
@@ -52,19 +51,20 @@ const handleRemove = async (selectedRows: UserListItem[]) => {
 
 const TableList: React.FC<{}> = () => {
   const [done, setDone] = useState<boolean>(false);
+  const [type, setType] = useState<string>('');
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
-  const [resetPwVisible, setUpdateResetPwVisible] = useState<boolean>(false);
-  const [current, setCurrent] = useState<Partial<TableListData> | undefined>(undefined);
+  const [updateModelVisible, setUpdateModelVisible] = useState<boolean>(false);
+  const [formValues, setFormValues] = useState({});
   const actionRef = useRef<ActionType>();
 
   /**
-   * 显示重置密码面板
+   * 显示用户各类编辑面板
    * @param item 数据
    */
-  const showResetPwModal = (item: TableListData) => {
-    setUpdateResetPwVisible(true);
-    setCurrent(item);
-    console.log(item)
+  const showUpdateModal = (key: string, item: TableListData) => {
+    setUpdateModelVisible(true);
+    setType(key)
+    setFormValues(item);
   };
 
   /**
@@ -73,14 +73,15 @@ const TableList: React.FC<{}> = () => {
    * @param currentItem 操作记录
    */
   const recordAction = (key: string, currentItem: TableListData) => {
-    if (key === 'resetPw') showResetPwModal(currentItem);
+    if (key === 'resetPw') showUpdateModal(key, currentItem);
+    else if (key === 'setAdmin') showUpdateModal(key, currentItem);
     else if (key === 'delete') {
       Modal.confirm({
         title: '删除用户',
         content: '确定删除该用户吗？',
         okText: '确认',
         cancelText: '取消',
-        onOk: () => {},
+        onOk: () => { },
       });
     }
   };
@@ -90,7 +91,7 @@ const TableList: React.FC<{}> = () => {
   }> = ({ record }) => (
     <Dropdown
       overlay={
-        <Menu onClick={({key})=> recordAction(key, record)}>
+        <Menu onClick={({ key }) => recordAction(key, record)}>
           <Menu.Item key="resetPw">重置密码</Menu.Item>
           <Menu.Item key="setAdmin">设置管理员</Menu.Item>
           <Menu.Item key="setInner">设置内部账户</Menu.Item>
@@ -104,24 +105,46 @@ const TableList: React.FC<{}> = () => {
     </Dropdown>
   );
 
-  
+  /**
+   * 关闭各类编辑页面的操作后的提示页面
+   */
   const handleDone = () => {
     setDone(false);
-    setUpdateResetPwVisible(false);
+    setUpdateModelVisible(false);
+    if (actionRef.current) {
+      actionRef.current.reload();
+    }
   };
 
+  /**
+   * 关闭各类编辑页面
+   */
   const handleCancel = () => {
-    setUpdateResetPwVisible(false);
+    setUpdateModelVisible(false);
   };
 
-  const handleSubmit = (values: TableListData) => {
-    const id = current ? current.id : '';
-console.log(values)
+  /**
+   * 各类操作页面的提交操作
+   * @param values 
+   */
+  const handleSubmit = (values: TableListData, actionType: string) => {
+    const {id} = values
     setDone(true);
-    // dispatch({
-    //   type: 'listAndbasicList/submit',
-    //   payload: { id, ...values },
-    // });
+
+    if (actionType === 'resetPw') {
+      resetPw({
+        id,
+        password: values.password,
+        rePassword: values.repassword,
+      });
+    }
+    if (actionType === 'setAdmin') {
+      setAdmin({
+        id,
+        isAdmin: values.isAdmin,
+      });
+    }
+
   };
 
   const columns: ProColumns<UserListItem>[] = [
@@ -194,7 +217,7 @@ console.log(values)
         <>
           <a
             onClick={() => {
-              
+
             }}
           >
             修改
@@ -263,10 +286,11 @@ console.log(values)
         onCancel={() => handleModalVisible(false)}
         modalVisible={createModalVisible}
       />
-     <OperationModal
+      <OperationModal
         done={done}
-        current={current}
-        visible={resetPwVisible}
+        values={formValues}
+        type={type}
+        visible={updateModelVisible}
         onDone={handleDone}
         onCancel={handleCancel}
         onSubmit={handleSubmit}
