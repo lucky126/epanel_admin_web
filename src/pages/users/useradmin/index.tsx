@@ -227,7 +227,7 @@ const TableList: React.FC<{}> = () => {
 
             }}
           >
-            修改
+            查看
           </a>
           <Divider type="vertical" />
           <MoreBtn key="more" record={record} />
