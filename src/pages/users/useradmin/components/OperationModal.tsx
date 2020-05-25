@@ -7,6 +7,8 @@ interface OperationModalProps {
   done: boolean;
   visible: boolean;
   type: string;
+  success: boolean;
+  message: string;
   values: Partial<TableListData>;
   onDone: () => void;
   onSubmit: (values: TableListData, type: string) => void;
@@ -20,7 +22,7 @@ const formLayout = {
 
 const OperationModal: FC<OperationModalProps> = (props) => {
   const [form] = Form.useForm();
-  const { done, visible, type, values, onDone, onCancel, onSubmit } = props;
+  const { done, visible, type, values, success, message, onDone, onCancel, onSubmit } = props;
   const userName = values.username;
 
   useEffect(() => {
@@ -53,26 +55,12 @@ const OperationModal: FC<OperationModalProps> = (props) => {
   const getModalContent = () => {
     if (done) {
 
-      let subTitle = '';
-
-      switch (type) {
-        case 'resetPw':
-          subTitle = '密码重置成功。';
-          break;
-        case 'setAdmin':
-          subTitle = '管理员设置切换成功。';
-          break;
-        case 'setInner':
-          subTitle = '内部用户设置切换成功。';
-          break;
-        default:
-          break;
-      }
+      let subTitle = message;
 
       return (
         <Result
-          status="success"
-          title="操作成功"
+          status={success ? 'success' : 'error'}
+          title={success ? '操作成功' : '操作失败'}
           subTitle={subTitle}
           extra={
             <Button type="primary" onClick={onDone}>

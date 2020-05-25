@@ -51,6 +51,8 @@ const handleRemove = async (selectedRows: UserListItem[]) => {
 
 const TableList: React.FC<{}> = () => {
   const [done, setDone] = useState<boolean>(false);
+  const [success, setSuccess] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModelVisible, setUpdateModelVisible] = useState<boolean>(false);
@@ -65,6 +67,8 @@ const TableList: React.FC<{}> = () => {
     setUpdateModelVisible(true);
     setType(key)
     setFormValues(item);
+    setSuccess(true);
+    setMessage('');
   };
 
   /**
@@ -122,6 +126,8 @@ const TableList: React.FC<{}> = () => {
    */
   const handleCancel = () => {
     setUpdateModelVisible(false);
+    setSuccess(true);
+    setMessage('');
   };
 
   /**
@@ -129,29 +135,32 @@ const TableList: React.FC<{}> = () => {
    * @param values 
    */
   const handleSubmit = (values: TableListData, actionType: string) => {
-    const {id} = values
+    const { id } = values
     setDone(true);
 
+    let result;
     if (actionType === 'resetPw') {
-      resetPw({
+      result = resetPw({
         id,
         password: values.password,
         rePassword: values.repassword,
       });
     }
     if (actionType === 'setAdmin') {
-      setAdmin({
+      result = setAdmin({
         id,
         flag: values.isAdmin,
       });
+
     }
     if (actionType === 'setInner') {
-      setInner({
+      result = setInner({
         id,
         flag: values.isInnerAccount,
       });
     }
 
+    result.then((v) => { setMessage(v.message); setSuccess(v.status === 200); })
   };
 
   const columns: ProColumns<UserListItem>[] = [
@@ -298,6 +307,8 @@ const TableList: React.FC<{}> = () => {
         values={formValues}
         type={type}
         visible={updateModelVisible}
+        success={success}
+        message={message}
         onDone={handleDone}
         onCancel={handleCancel}
         onSubmit={handleSubmit}
