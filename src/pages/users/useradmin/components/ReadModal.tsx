@@ -61,6 +61,29 @@ const ReadModal: FC<ReadModalProps> = (props) => {
               <Badge status="error" text="未激活" />
             )}</Descriptions.Item>
         </Descriptions>
+        <Divider style={{ marginBottom: 10 }} />
+        <Descriptions title="第三方账户绑定信息" style={{ marginBottom: 10 }}>
+          <Descriptions.Item label="QQ">{values.isBindQq ? (
+            <Badge status="success" text="已绑定" />
+          ) : (
+              <Badge status="error" text="未绑定" />
+            )}</Descriptions.Item>
+          <Descriptions.Item label="微信">{values.isBindWechat ? (
+            <Badge status="success" text="已绑定" />
+          ) : (
+              <Badge status="error" text="未绑定" />
+            )}</Descriptions.Item>
+          <Descriptions.Item label="微博">{values.isBindWeibo ? (
+            <Badge status="success" text="已绑定" />
+          ) : (
+              <Badge status="error" text="未绑定" />
+            )}</Descriptions.Item>
+          <Descriptions.Item label="钉钉">{values.isBindDingtalk ? (
+            <Badge status="success" text="已绑定" />
+          ) : (
+              <Badge status="error" text="未绑定" />
+            )}</Descriptions.Item>
+        </Descriptions>
       </Card>
     );
   };
