@@ -5,6 +5,7 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import OperationModal from './components/OperationModal';
+import ReadModal from './components/ReadModal';
 import { UserListItem, TableListData } from './data.d';
 import { queryList, setAdmin, resetPw, setInner } from '../../../services/user';
 
@@ -52,10 +53,11 @@ const handleRemove = async (selectedRows: UserListItem[]) => {
 const TableList: React.FC<{}> = () => {
   const [done, setDone] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
-  const [message, setMessage] = useState<string>('');
+  const [returnMsg, setReturnMsg] = useState<string>('');
   const [type, setType] = useState<string>('');
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModelVisible, setUpdateModelVisible] = useState<boolean>(false);
+  const [readModelVisible, setReadModelVisible] = useState<boolean>(false);
   const [formValues, setFormValues] = useState({});
   const actionRef = useRef<ActionType>();
 
@@ -68,7 +70,7 @@ const TableList: React.FC<{}> = () => {
     setType(key)
     setFormValues(item);
     setSuccess(true);
-    setMessage('');
+    setReturnMsg('');
   };
 
   /**
@@ -127,7 +129,11 @@ const TableList: React.FC<{}> = () => {
   const handleCancel = () => {
     setUpdateModelVisible(false);
     setSuccess(true);
-    setMessage('');
+    setReturnMsg('');
+  };
+
+  const handleReadCancel = () => {
+    setReadModelVisible(false);
   };
 
   /**
@@ -233,7 +239,8 @@ const TableList: React.FC<{}> = () => {
         <>
           <a
             onClick={() => {
-
+              setReadModelVisible(true);
+              setFormValues(record);
             }}
           >
             查看
@@ -302,13 +309,18 @@ const TableList: React.FC<{}> = () => {
         onCancel={() => handleModalVisible(false)}
         modalVisible={createModalVisible}
       />
+      <ReadModal
+        values={formValues}
+        visible={readModelVisible}
+        onCancel={handleReadCancel}
+      />
       <OperationModal
         done={done}
         values={formValues}
         type={type}
         visible={updateModelVisible}
         success={success}
-        message={message}
+        returnMsg={returnMsg}
         onDone={handleDone}
         onCancel={handleCancel}
         onSubmit={handleSubmit}

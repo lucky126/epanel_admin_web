@@ -8,7 +8,7 @@
 export default {
   dev: {
     '/v3/': {
-      target: 'http://localhost:8081',
+      target: 'http://localhost:8880',
       changeOrigin: true,
       pathRewrite: { '^': '' },
     },

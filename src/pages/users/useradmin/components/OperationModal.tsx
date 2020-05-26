@@ -8,7 +8,7 @@ interface OperationModalProps {
   visible: boolean;
   type: string;
   success: boolean;
-  message: string;
+  returnMsg: string;
   values: Partial<TableListData>;
   onDone: () => void;
   onSubmit: (values: TableListData, type: string) => void;
@@ -22,7 +22,7 @@ const formLayout = {
 
 const OperationModal: FC<OperationModalProps> = (props) => {
   const [form] = Form.useForm();
-  const { done, visible, type, values, success, message, onDone, onCancel, onSubmit } = props;
+  const { done, visible, type, values, success, returnMsg, onDone, onCancel, onSubmit } = props;
   const userName = values.username;
 
   useEffect(() => {
@@ -55,7 +55,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
   const getModalContent = () => {
     if (done) {
 
-      let subTitle = message;
+      let subTitle = returnMsg;
 
       return (
         <Result
