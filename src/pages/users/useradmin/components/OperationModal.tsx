@@ -82,7 +82,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
           <Form.Item
             name="password"
             label="新密码"
-            rules={[{ required: true, message: '请输入新的密码' }]}
+            rules={[{ required: true, message: '请输入新的密码，最少6位',min: 6 }]}
           >
             <Input placeholder="请输入新的密码" type="password" />
           </Form.Item>
@@ -90,8 +90,16 @@ const OperationModal: FC<OperationModalProps> = (props) => {
         {type === 'resetPw' && (
           <Form.Item
             name="repassword"
+            dependencies={['password']}
             label="确认密码"
-            rules={[{ required: true, message: '请输入确认密码' }]}
+            rules={[{ required: true, message: '请输入确认密码，最少6位',min: 6 }, ({ getFieldValue }) => ({
+              validator(rule, value) {
+                if (!value || getFieldValue('password') === value) {
+                  return Promise.resolve();
+                }
+                return Promise.reject('两次密码输入不一致!');
+              },
+            }),]}
           >
             <Input placeholder="请输入确认密码" type="password" />
           </Form.Item>
