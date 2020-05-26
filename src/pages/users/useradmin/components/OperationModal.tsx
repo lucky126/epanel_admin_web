@@ -114,6 +114,15 @@ const OperationModal: FC<OperationModalProps> = (props) => {
             <Switch checkedChildren="是" unCheckedChildren="否" />
           </Form.Item>
         )}
+        {type === 'setEnabled' && (
+          <Form.Item
+            name="isEnabled"
+            label="状态"
+            valuePropName="defaultChecked"
+          >
+            <Switch checkedChildren="启用" unCheckedChildren="停用" />
+          </Form.Item>
+        )}
 
       </Form>
     );
@@ -130,6 +139,9 @@ const OperationModal: FC<OperationModalProps> = (props) => {
       break;
     case 'setInner':
       modelTitle = '设置内部用户(包含离线下载权限)';
+      break;
+    case 'setEnabled':
+      modelTitle = '停启用账户';
       break;
     default:
       break;

@@ -39,6 +39,16 @@ export async function setInner(params: UserListParams) {
   });
 }
 
+export async function setEnabled(params: UserListParams) {
+  return request('/v3/user/setEnabled', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
+
+
 export async function addRule(params: UserListParams) {
   return request('/api/rule', {
     method: 'POST',

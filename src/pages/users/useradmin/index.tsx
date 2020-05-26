@@ -7,7 +7,7 @@ import CreateForm from './components/CreateForm';
 import OperationModal from './components/OperationModal';
 import ReadModal from './components/ReadModal';
 import { UserListItem, TableListData } from './data.d';
-import { queryList, setAdmin, resetPw, setInner } from '../../../services/user';
+import { queryList, setAdmin, resetPw, setInner, setEnabled } from '../../../services/user';
 
 /**
  * 添加节点
@@ -80,6 +80,7 @@ const TableList: React.FC<{}> = () => {
    */
   const recordAction = (key: string, currentItem: TableListData) => {
     if (key === 'resetPw') showUpdateModal(key, currentItem);
+    else if (key === 'setEnabled') showUpdateModal(key, currentItem);
     else if (key === 'setAdmin') showUpdateModal(key, currentItem);
     else if (key === 'setInner') showUpdateModal(key, currentItem);
     else if (key === 'delete') {
@@ -100,6 +101,7 @@ const TableList: React.FC<{}> = () => {
       overlay={
         <Menu onClick={({ key }) => recordAction(key, record)}>
           <Menu.Item key="resetPw">重置密码</Menu.Item>
+          <Menu.Item key="setEnabled">停启用账户</Menu.Item>
           <Menu.Item key="setAdmin">设置管理员</Menu.Item>
           <Menu.Item key="setInner">设置内部账户</Menu.Item>
           <Menu.Item key="delete">删除</Menu.Item>
@@ -165,8 +167,14 @@ const TableList: React.FC<{}> = () => {
         flag: values.isInnerAccount,
       });
     }
+    if (actionType === 'setEnabled') {
+      result = setEnabled({
+        id,
+        flag: values.isEnabled,
+      });
+    }
 
-    result.then((v) => { setMessage(v.message); setSuccess(v.status === 200); })
+    result.then((v) => { setReturnMsg(v.message); setSuccess(v.status === 200); })
   };
 
   const columns: ProColumns<UserListItem>[] = [
