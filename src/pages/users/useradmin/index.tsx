@@ -6,8 +6,8 @@ import ProTable, { ProColumns, ActionType } from '@ant-design/pro-table';
 import CreateForm from './components/CreateForm';
 import OperationModal from './components/OperationModal';
 import ReadModal from './components/ReadModal';
-import { UserListItem, TableListData } from './data.d';
-import { queryList, setAdmin, resetPw, setInner, setEnabled } from '../../../services/user';
+import { UserListItem } from './data.d';
+import { queryList, setAdmin, resetPw, setInner, setEnabled, getAccount } from '../../../services/user';
 
 /**
  * 添加节点
@@ -59,13 +59,15 @@ const TableList: React.FC<{}> = () => {
   const [updateModelVisible, setUpdateModelVisible] = useState<boolean>(false);
   const [readModelVisible, setReadModelVisible] = useState<boolean>(false);
   const [formValues, setFormValues] = useState({});
+  const [accountValues, setAccountValues] = useState({});
+  const [hasAccount, setHasAccount] = useState<boolean>(false);
   const actionRef = useRef<ActionType>();
 
   /**
    * 显示用户各类编辑面板
    * @param item 数据
    */
-  const showUpdateModal = (key: string, item: TableListData) => {
+  const showUpdateModal = (key: string, item: UserListItem) => {
     setUpdateModelVisible(true);
     setType(key)
     setFormValues(item);
@@ -78,7 +80,7 @@ const TableList: React.FC<{}> = () => {
    * @param key 操作类型
    * @param currentItem 操作记录
    */
-  const recordAction = (key: string, currentItem: TableListData) => {
+  const recordAction = (key: string, currentItem: UserListItem) => {
     if (key === 'resetPw') showUpdateModal(key, currentItem);
     else if (key === 'setEnabled') showUpdateModal(key, currentItem);
     else if (key === 'setAdmin') showUpdateModal(key, currentItem);
@@ -95,7 +97,7 @@ const TableList: React.FC<{}> = () => {
   };
 
   const MoreBtn: React.FC<{
-    record: TableListData;
+    record: UserListItem;
   }> = ({ record }) => (
     <Dropdown
       overlay={
@@ -142,7 +144,7 @@ const TableList: React.FC<{}> = () => {
    * 各类操作页面的提交操作
    * @param values 
    */
-  const handleSubmit = (values: TableListData, actionType: string) => {
+  const handleSubmit = (values: UserListItem, actionType: string) => {
     const { id } = values
     setDone(true);
 
@@ -249,6 +251,7 @@ const TableList: React.FC<{}> = () => {
             onClick={() => {
               setReadModelVisible(true);
               setFormValues(record);
+              getAccount(record.id).then((v) => { setHasAccount(v.status !== 404); setAccountValues(v); });
             }}
           >
             查看
@@ -321,6 +324,8 @@ const TableList: React.FC<{}> = () => {
         values={formValues}
         visible={readModelVisible}
         onCancel={handleReadCancel}
+        accountValues={accountValues}
+        hasAccount={hasAccount}
       />
       <OperationModal
         done={done}

@@ -1,6 +1,8 @@
 export interface UserListItem {
   id: number;
   username?: string;
+  password?: string;
+  repassword?: string;
   nickName?: string;
   mobileNumber?: string;
   email?: string;
@@ -18,9 +20,32 @@ export interface UserListItem {
   isEnabled?: boolean;
   isInnerAccount?: boolean;  
   isPrimaryAccount?: boolean;
+  isBindQq?: boolean;
+  isBindWechat?: boolean;
+  isBindWeibo?: boolean;
+  isBindDingtalk?: boolean;
   updateTime: Date;
   createTime: Date;
 }     
+
+export interface AccountItem {
+  cashBalance?: number;
+  cashDisenabled?: number;
+  cashUsable?: number;
+  createTime: Date;
+  creatorId?: number;
+  mailBalance?: number;
+  mailDisenabled?: number;
+  mailUsable?: number;
+  parentAccountId?: number;
+  smsBalance?: number;
+  smsDisenabled?: number;
+  smsUsable?: number;
+  status?: number;
+  updateTime: Date;
+  updaterId?: number;
+  userId?: number;
+}
 
 export interface UserListPagination {
   total: number;

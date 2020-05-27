@@ -12,6 +12,12 @@ export async function queryList(params?: UserListParams) : Promise<any> {
   return result;
 }
 
+export async function getAccount(id: number) {
+  return request(`/v3/user/${id}/account`, {
+    method: 'GET',
+  });
+}
+
 export async function resetPw(params: UserListParams) {
   return request('/v3/user/resetPassword', {
     method: 'POST',

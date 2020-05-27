@@ -42,7 +42,7 @@ const Login: React.FC<LoginProps> = (props) => {
       },
     });
   };
-  console.log(message)
+  // console.log(message)
   return (
     <div className={styles.main}>
       <LoginFrom activeKey={type} onTabChange={setType} onSubmit={handleSubmit}>

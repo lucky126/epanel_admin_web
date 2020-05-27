@@ -1,17 +1,19 @@
 import React, { FC } from 'react';
 import { Modal, Card, Descriptions, Divider, Badge } from 'antd';
-import { TableListData } from '../data.d';
+import { UserListItem, AccountItem } from '../data.d';
 
 import styles from '../style.less';
 
 interface ReadModalProps {
   visible: boolean;
-  values: Partial<TableListData>;
+  values: Partial<UserListItem>;
+  accountValues: Partial<AccountItem>;
+  hasAccount: boolean;
   onCancel: () => void;
 }
 
 const ReadModal: FC<ReadModalProps> = (props) => {
-  const { visible, values, onCancel } = props;
+  const { visible, values, accountValues, hasAccount, onCancel } = props;
   const userName = values.username;
 
   const modalFooter = { okText: '确定', onOk: onCancel, onCancel };
@@ -83,6 +85,12 @@ const ReadModal: FC<ReadModalProps> = (props) => {
           ) : (
               <Badge status="error" text="未绑定" />
             )}</Descriptions.Item>
+        </Descriptions>
+        <Divider style={{ marginBottom: 10 }} />
+        <Descriptions title={`个人账户信息 ${hasAccount?"":"（未设置）"}`} style={{ marginBottom: 10 }}>
+          <Descriptions.Item label="账户余额">{hasAccount ? accountValues.cashBalance : "-"} 元</Descriptions.Item>
+          <Descriptions.Item label="邮件剩余条数">{hasAccount ? accountValues.mailBalance : "-"} 封</Descriptions.Item>
+          <Descriptions.Item label="短信剩余条数">{hasAccount ? accountValues.smsBalance : "-"} 条</Descriptions.Item>
         </Descriptions>
       </Card>
     );
