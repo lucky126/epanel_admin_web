@@ -64,3 +64,15 @@ export interface UserListParams {
   pageSize?: number;
   currentPage?: number;
 }
+
+export interface checkPasswordData {
+  id: number;
+  operatedUserId: number;
+  action: string;
+  password: string;
+}
+
+export interface setFlagData {
+  id: number;
+  flag: boolean;
+}

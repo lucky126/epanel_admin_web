@@ -1,20 +1,27 @@
 import request from '@/utils/request';
-import { UserListParams } from '../pages/users/useradmin/data.d';
+import { UserListParams, checkPasswordData, setFlagData } from '../pages/users/useradmin/data.d';
 
 export async function queryList(params?: UserListParams) : Promise<any> {
-  let result =  request('/v3/user/list',{
+  return request('/v3/user/list',{
     method: 'POST',
     data: {
       ...params,
     },
   })
-  // console.log(result)
-  return result;
 }
 
 export async function getAccount(id: number) {
   return request(`/v3/user/${id}/account`, {
     method: 'GET',
+  });
+}
+
+export async function checkPassword(params: checkPasswordData) {
+  return request('/v3/user/checkPassword', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
   });
 }
 
@@ -27,7 +34,7 @@ export async function resetPw(params: UserListParams) {
   });
 }
 
-export async function setAdmin(params: UserListParams) {
+export async function setAdmin(params: setFlagData) {
   return request('/v3/user/setAdmin', {
     method: 'POST',
     data: {
@@ -36,7 +43,7 @@ export async function setAdmin(params: UserListParams) {
   });
 }
 
-export async function setInner(params: UserListParams) {
+export async function setInner(params: setFlagData) {
   return request('/v3/user/setInnerAccount', {
     method: 'POST',
     data: {
@@ -45,7 +52,7 @@ export async function setInner(params: UserListParams) {
   });
 }
 
-export async function setEnabled(params: UserListParams) {
+export async function setEnabled(params: setFlagData) {
   return request('/v3/user/setEnabled', {
     method: 'POST',
     data: {

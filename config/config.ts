@@ -31,6 +31,8 @@ export default defineConfig({
   targets: {
     ie: 11,
   },
+  base: '/admin/',
+  publicPath: '/admin/',
   // umi routes: https://umijs.org/docs/routing
   routes: [
     {
