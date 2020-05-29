@@ -1,18 +1,20 @@
 import React, { FC, useEffect } from 'react';
 import { Modal, Result, Button, Form, Input, Switch } from 'antd';
-import { TableListData } from '../data.d';
+import { UserListItem } from '../data.d';
 import styles from '../style.less';
 
 interface OperationModalProps {
   done: boolean;
+  pwCheck: boolean;
   visible: boolean;
   type: string;
   success: boolean;
   returnMsg: string;
-  values: Partial<TableListData>;
+  values: Partial<UserListItem>;
   onDone: () => void;
-  onSubmit: (values: TableListData, type: string) => void;
+  onSubmit: (values: UserListItem, type: string) => void;
   onCancel: () => void;
+  onCheck: (values: UserListItem, type: string) => void;
 }
 
 const formLayout = {
@@ -22,7 +24,7 @@ const formLayout = {
 
 const OperationModal: FC<OperationModalProps> = (props) => {
   const [form] = Form.useForm();
-  const { done, visible, type, values, success, returnMsg, onDone, onCancel, onSubmit } = props;
+  const { done, pwCheck, visible, type, values, success, returnMsg, onDone, onCancel, onSubmit, onCheck } = props;
   const userName = values.username;
 
   useEffect(() => {
@@ -44,24 +46,48 @@ const OperationModal: FC<OperationModalProps> = (props) => {
 
   const handleFinish = (formValues: { [key: string]: any }) => {
     if (onSubmit) {
-      onSubmit(formValues as TableListData, type);
+      onSubmit(formValues as UserListItem, type);
     }
   };
 
+  const handleCheck = (formValues: { [key: string]: any }) => {
+    if (onCheck) {
+      onCheck(formValues as UserListItem, type);
+    }
+  };
+
+  const okButText = pwCheck ? '保存' : '继续';
   const modalFooter = done
     ? { footer: null, onCancel: onDone }
-    : { okText: '保存', onOk: handleSubmit, onCancel };
+    : { okText: okButText, onOk: handleSubmit, onCancel };
 
   const getModalContent = () => {
-    if (done) {
+    if (!done && !pwCheck) {
 
-      let subTitle = returnMsg;
+      return (
+        <Form {...formLayout} form={form} onFinish={handleCheck}>
+          <Form.Item
+            name="id"
+          >
+            <Input type="hidden" />
+          </Form.Item>
+          <Form.Item
+            name="checkPassword"
+            label="请输入登录密码"
+            rules={[{ required: true, message: '请输入登录密码' }]}
+          >
+            <Input placeholder="请输入登录密码" type="password" />
+          </Form.Item>
+        </Form>
+      );
+    }
+    if (done) {
 
       return (
         <Result
           status={success ? 'success' : 'error'}
           title={success ? '操作成功' : '操作失败'}
-          subTitle={subTitle}
+          subTitle={returnMsg}
           extra={
             <Button type="primary" onClick={onDone}>
               知道了
@@ -82,7 +108,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
           <Form.Item
             name="password"
             label="新密码"
-            rules={[{ required: true, message: '请输入新的密码，最少6位',min: 6 }]}
+            rules={[{ required: true, message: '请输入新的密码，最少6位', min: 6 }]}
           >
             <Input placeholder="请输入新的密码" type="password" />
           </Form.Item>
@@ -92,7 +118,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
             name="repassword"
             dependencies={['password']}
             label="确认密码"
-            rules={[{ required: true, message: '请输入确认密码，最少6位',min: 6 }, ({ getFieldValue }) => ({
+            rules={[{ required: true, message: '请输入确认密码，最少6位', min: 6 }, ({ getFieldValue }) => ({
               validator(rule, value) {
                 if (!value || getFieldValue('password') === value) {
                   return Promise.resolve();

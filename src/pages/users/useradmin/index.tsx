@@ -7,7 +7,7 @@ import CreateForm from './components/CreateForm';
 import OperationModal from './components/OperationModal';
 import ReadModal from './components/ReadModal';
 import { UserListItem } from './data.d';
-import { queryList, setAdmin, resetPw, setInner, setEnabled, getAccount } from '../../../services/user';
+import { queryList, setAdmin, resetPw, setInner, setEnabled, getAccount, checkPassword } from '../../../services/user';
 
 /**
  * 添加节点
@@ -52,6 +52,7 @@ const handleRemove = async (selectedRows: UserListItem[]) => {
 
 const TableList: React.FC<{}> = () => {
   const [done, setDone] = useState<boolean>(false);
+  const [pwCheck, setPwCheck] = useState<boolean>(false);
   const [success, setSuccess] = useState<boolean>(false);
   const [returnMsg, setReturnMsg] = useState<string>('');
   const [type, setType] = useState<string>('');
@@ -72,6 +73,7 @@ const TableList: React.FC<{}> = () => {
     setType(key)
     setFormValues(item);
     setSuccess(true);
+    setPwCheck(false);
     setReturnMsg('');
   };
 
@@ -121,6 +123,7 @@ const TableList: React.FC<{}> = () => {
    */
   const handleDone = () => {
     setDone(false);
+    setPwCheck(false)
     setUpdateModelVisible(false);
     if (actionRef.current) {
       actionRef.current.reload();
@@ -137,8 +140,26 @@ const TableList: React.FC<{}> = () => {
   };
 
   const handleReadCancel = () => {
+    setPwCheck(false)
     setReadModelVisible(false);
   };
+
+  const handleCheck = (values: UserListItem, actionType: string) => {
+    const { id } = values
+
+    const result = checkPassword({
+      id,
+      action: actionType,
+      password: values.checkPassword,
+    });
+
+    result.then((v) => {
+      setPwCheck(v.status === 200);
+      setReturnMsg(v.status !== 200 ? v.message : '');
+      setSuccess(v.status === 200);
+      setDone(v.status !== 200)
+    });
+  }
 
   /**
    * 各类操作页面的提交操作
@@ -329,6 +350,7 @@ const TableList: React.FC<{}> = () => {
       />
       <OperationModal
         done={done}
+        pwCheck={pwCheck}
         values={formValues}
         type={type}
         visible={updateModelVisible}
@@ -336,6 +358,7 @@ const TableList: React.FC<{}> = () => {
         returnMsg={returnMsg}
         onDone={handleDone}
         onCancel={handleCancel}
+        onCheck={handleCheck}
         onSubmit={handleSubmit}
       />
     </PageHeaderWrapper>

@@ -3,6 +3,7 @@ export interface UserListItem {
   username?: string;
   password?: string;
   repassword?: string;
+  checkPassword?: string;
   nickName?: string;
   mobileNumber?: string;
   email?: string;
