@@ -10,9 +10,10 @@ interface OperationModalProps {
   type: string;
   success: boolean;
   returnMsg: string;
+  actionKey: string;
   values: Partial<UserListItem>;
   onDone: () => void;
-  onSubmit: (values: UserListItem, type: string) => void;
+  onSubmit: (values: UserListItem, type: string, key: string) => void;
   onCancel: () => void;
   onCheck: (values: UserListItem, type: string) => void;
 }
@@ -24,7 +25,7 @@ const formLayout = {
 
 const OperationModal: FC<OperationModalProps> = (props) => {
   const [form] = Form.useForm();
-  const { done, pwCheck, visible, type, values, success, returnMsg, onDone, onCancel, onSubmit, onCheck } = props;
+  const { done, pwCheck, visible, type, values, success, returnMsg, actionKey, onDone, onCancel, onSubmit, onCheck } = props;
   const userName = values.username;
 
   useEffect(() => {
@@ -46,7 +47,7 @@ const OperationModal: FC<OperationModalProps> = (props) => {
 
   const handleFinish = (formValues: { [key: string]: any }) => {
     if (onSubmit) {
-      onSubmit(formValues as UserListItem, type);
+      onSubmit(formValues as UserListItem, type, actionKey);
     }
   };
 

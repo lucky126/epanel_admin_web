@@ -27,6 +27,7 @@ export interface UserListItem {
   isBindDingtalk?: boolean;
   updateTime: Date;
   createTime: Date;
+  actionKey?: string;
 }     
 
 export interface AccountItem {
@@ -69,11 +70,23 @@ export interface UserListParams {
 export interface checkPasswordData {
   id: number;
   operatedUserId: number;
-  action: string;
   password: string;
+  action: string;
+  key: string;
+}
+
+
+export interface resetPwData {
+  id: number;
+  password: string;
+  repassword: string;
+  action: string;
+  key: string;
 }
 
 export interface setFlagData {
   id: number;
-  flag: boolean;
+  flag?: boolean;
+  action: string;
+  key: string;
 }

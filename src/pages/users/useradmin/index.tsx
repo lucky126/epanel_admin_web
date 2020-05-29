@@ -56,6 +56,7 @@ const TableList: React.FC<{}> = () => {
   const [success, setSuccess] = useState<boolean>(false);
   const [returnMsg, setReturnMsg] = useState<string>('');
   const [type, setType] = useState<string>('');
+  const [actionKey, setActionKey] = useState<string>('');
   const [createModalVisible, handleModalVisible] = useState<boolean>(false);
   const [updateModelVisible, setUpdateModelVisible] = useState<boolean>(false);
   const [readModelVisible, setReadModelVisible] = useState<boolean>(false);
@@ -75,6 +76,7 @@ const TableList: React.FC<{}> = () => {
     setSuccess(true);
     setPwCheck(false);
     setReturnMsg('');
+    setActionKey('');
   };
 
   /**
@@ -158,6 +160,7 @@ const TableList: React.FC<{}> = () => {
       setReturnMsg(v.status !== 200 ? v.message : '');
       setSuccess(v.status === 200);
       setDone(v.status !== 200)
+      setActionKey(v.status === 200 ? v.message : '');
     });
   }
 
@@ -165,9 +168,8 @@ const TableList: React.FC<{}> = () => {
    * 各类操作页面的提交操作
    * @param values 
    */
-  const handleSubmit = (values: UserListItem, actionType: string) => {
+  const handleSubmit = (values: UserListItem, actionType: string, actionKey: string) => {
     const { id } = values
-    setDone(true);
 
     let result;
     if (actionType === 'resetPw') {
@@ -175,12 +177,16 @@ const TableList: React.FC<{}> = () => {
         id,
         password: values.password,
         rePassword: values.repassword,
+        action: actionType,
+        key: actionKey,
       });
     }
     if (actionType === 'setAdmin') {
       result = setAdmin({
         id,
         flag: values.isAdmin,
+        action: actionType,
+        key: actionKey,
       });
 
     }
@@ -188,16 +194,20 @@ const TableList: React.FC<{}> = () => {
       result = setInner({
         id,
         flag: values.isInnerAccount,
+        action: actionType,
+        key: actionKey,
       });
     }
     if (actionType === 'setEnabled') {
       result = setEnabled({
         id,
         flag: values.isEnabled,
+        action: actionType,
+        key: actionKey,
       });
     }
 
-    result.then((v) => { setReturnMsg(v.message); setSuccess(v.status === 200); })
+    result.then((v) => { setReturnMsg(v.message); setSuccess(v.status === 200); setDone(true); })
   };
 
   const columns: ProColumns<UserListItem>[] = [
@@ -356,6 +366,7 @@ const TableList: React.FC<{}> = () => {
         visible={updateModelVisible}
         success={success}
         returnMsg={returnMsg}
+        actionKey={actionKey}
         onDone={handleDone}
         onCancel={handleCancel}
         onCheck={handleCheck}

@@ -25,7 +25,7 @@ export async function checkPassword(params: checkPasswordData) {
   });
 }
 
-export async function resetPw(params: UserListParams) {
+export async function resetPw(params: resetPwData) {
   return request('/v3/user/resetPassword', {
     method: 'POST',
     data: {
