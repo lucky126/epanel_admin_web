@@ -28,6 +28,7 @@ export interface UserListItem {
   updateTime: Date;
   createTime: Date;
   actionKey?: string;
+  cash?: number;
 }     
 
 export interface AccountItem {
@@ -87,6 +88,13 @@ export interface resetPwData {
 export interface setFlagData {
   id: number;
   flag?: boolean;
+  action: string;
+  key: string;
+}
+
+export interface setCashData {
+  id: number;
+  cash?: number;
   action: string;
   key: string;
 }

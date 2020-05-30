@@ -1,7 +1,8 @@
 import React, { FC, useEffect } from 'react';
-import { Modal, Result, Button, Form, Input, Switch } from 'antd';
+import { Modal, Result, Button, Form, Input, Switch, InputNumber } from 'antd';
 import { UserListItem } from '../data.d';
 import styles from '../style.less';
+import { number } from 'prop-types';
 
 interface OperationModalProps {
   done: boolean;
@@ -158,6 +159,18 @@ const OperationModal: FC<OperationModalProps> = (props) => {
             <Switch checkedChildren="启用" unCheckedChildren="停用" />
           </Form.Item>
         )}
+        {type === 'setCash' && (
+          <Form.Item
+            name="cash"
+            label="余额增加的金额"
+            getValueFromEvent = {(event) => {
+              return event.target.value.replace(/\D/g,'')
+            }}
+            rules={[{ required: true, message: '请输入增加的金额',pattern: new RegExp(/^[0-9]\d*$/, "g") }]}
+          >
+           <Input prefix="￥" suffix="RMB" />
+          </Form.Item>
+        )}
 
       </Form>
     );
@@ -177,6 +190,9 @@ const OperationModal: FC<OperationModalProps> = (props) => {
       break;
     case 'setEnabled':
       modelTitle = '停启用账户';
+      break;
+    case 'setCash':
+      modelTitle = '追加账户余额';
       break;
     default:
       break;

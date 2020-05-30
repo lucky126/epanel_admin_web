@@ -1,5 +1,5 @@
 import request from '@/utils/request';
-import { UserListParams, checkPasswordData, setFlagData } from '../pages/users/useradmin/data.d';
+import { UserListParams, checkPasswordData, setFlagData, setCashData } from '../pages/users/useradmin/data.d';
 
 export async function queryList(params?: UserListParams) : Promise<any> {
   return request('/v3/user/list',{
@@ -61,6 +61,14 @@ export async function setEnabled(params: setFlagData) {
   });
 }
 
+export async function setCash(params: setCashData) {
+  return request('/v3/user/setCash', {
+    method: 'POST',
+    data: {
+      ...params,
+    },
+  });
+}
 
 export async function addRule(params: UserListParams) {
   return request('/api/rule', {
